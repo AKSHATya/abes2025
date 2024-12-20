@@ -1,0 +1,24 @@
+name: Generate Folder 
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Magic
+        uses: MRfantastic3DGamer/Better-Tree-Action@v1.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          root: "./"
+          auto-doc: true
+          ignored-locations: "./react_form/form/node_modules ./react_form/server/node_modules"
