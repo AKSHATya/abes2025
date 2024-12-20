@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import axios from "axios";
+import "./App.css"; // Add custom styles here
+
+const RegisterForm = () => {
+  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [response, setResponse] = useState("");
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("https://jsonplaceholder.typicode.com/posts", formData);
+      setResponse("Form submitted successfully!");
+      setError("");
+    } catch (err) {
+      setError("Error submitting the form.");
+      setResponse("");
+    }
+  };
+
+  return (
+    <div className="form-container">
+      <h2>Register Form</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        </label>
+        <label>
+          Email:
+          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        </label>
+        <label>
+          Password:
+          <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+      {response && <p className="success">{response}</p>}
+      {error && <p className="error">{error}</p>}
+    </div>
+  );
+};
+
+export default RegisterForm;
+//////////////////////////////////////////////backend
+const express = require('express');
+const cors = require('cors');
+const axios = require('axios');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.post('/register', async (req, res) => {
+  try {
+    const response = await axios.post('https://jsonplaceholder.typicode.com/users', req.body);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: 'Error processing request' });
+  }
+});
+
+app.get('/employees', async (req, res) => {
+  try {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching employees' });
+  }
+});
+
+app.listen(5000, () => console.log('Server running on port 5000'));
