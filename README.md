@@ -38,9 +38,8 @@ This project is a simple Employee Management app consisting of two main function
 1. **Clone the repository**:
 
 ```bash
-git clone https://github.com/your-username/employee-management-app.git
-cd employee-management-app
-
+git clone https://github.com/AKSHATya/abes2025.git
+cd abes2025/react_form
 ```
 2. **Install dependencies**:
 ```bash
